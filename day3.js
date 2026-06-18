@@ -1,132 +1,276 @@
-//🌳 Insert into Heap (Min Heap)
-// class MinHeap{
+//Max Priority Queue
+// class MaxPQ{
 //     constructor(){
 //         this.heap=[]
 //     }
 
-//     insert(val){
-//         this.heap.push(val)
+//     insert(task,priority){
+//         this.heap.push({task,priority})
+//         this.heap.sort((a,b)=>b.priority-a.priority)
+//     }
 
-//         let i=this.heap.length-1
-
-//         while(i>0){
-//             let parent=Math.floor((i-1)/2)
-
-//             if(this.heap[parent]>this.heap[i]) {
-//                 [this.heap[parent],this.heap[i]] = [this.heap[i],this.heap[parent]]
-//                 i=parent
-//             }else break
-//         }
+//     execute(){
+//         return this.heap.shift()
 //     }
 // }
 
-// let h=new MinHeap()
-// h.insert(30)
-// h.insert(10)
-// h.insert(20)
+// let pq=new MaxPQ()
 
-// console.log(h.heap)
+// pq.insert("A",2)
+// pq.insert("B",5)
+// pq.insert("C",1)
+
+// console.log(pq.execute())
+// console.log(pq.execute())
+
+
+
+//Emergency Queue Systems (Priority Queue)
+// class EmergencyQueue{
+//     constructor(){
+//         this.queue=[]
+//     }
+
+//     add(name,priority){
+//         this.queue.push({name,priority})
+//         this.queue.sort((a,b)=>b.priority-a.priority)
+//     }
+
+//     treat(){
+//         return this.queue.shift()
+//     }
+// }
+
+// let eq=new EmergencyQueue()
+
+// eq.add("A",1)
+// eq.add("B",5)
+// eq.add("C",3)
+
+// console.log(eq.treat())
+// console.log(eq.treat())
+
+
+
+//1. Simple Priority Queue (Array – Easy)
+
+//👉 Highest priority = small number = high priority
+
+// class PriorityQueue{
+//     constructor(){
+//         this.queue=[]
+//     }
+
+//     //.✅Add task with priority
+//     enqueue(value,priority){
+//         let newItem={value,priority}
+
+//         this.queue.push(newItem)
+
+//         // sort based on priority
+//         this.queue.sort((a,b)=>a.priority-b.priority)
+//     }
+
+//     // ✅ Remove highest priority
+//     dequeue(){
+//         if(this.queue.length === 0) return null
+
+//         return this.queue.shift()
+//     }
+
+//       // ✅ View front
+//       peek(){
+//         return this.queue[0] || null
+//       }
+
+//       print(){
+//         console.log(this.queue)
+//       }
+// }
+
+// let pq=new PriorityQueue()
+
+// pq.enqueue("Low Task",3)
+// pq.enqueue("High Task",1)
+// pq.enqueue("Medium Task",2)
+
+// pq.print()
+
+// console.log(pq.dequeue())
 
 
 
 
-//🌳 Delete from Heap (Min Heap)
-// class MinHeap{
+//2. Priority Queue using Min Heap
+// class MinPriorityQueue{
 //     constructor(){
 //         this.heap=[]
 //     }
 
-//     extractMin(){
-//         if(this.heap.length===0) return null
-//         if(this.heap.length===1) return this.heap.pop()
+//     parent(i) {return Math.floor((i-1)/2);}
+//     left(i) {return 2 * i + 1;}
+//     right(i) {return 2* i + 2;}
 
-//             let min=this.heap[0]
-//             this.heap[0]=this.heap.pop()
+//     enqueue(value,priority) {
+//         let node={value,priority}
+//         this.heap.push(node)
+//         this.heapifyUp()
+//     }
 
-//             let i=0
-//             let n=this.heap.length
+//     heapifyUp(){
+//         let i=this.heap.length-1
 
-//             while(true){
-//                 let left= 2 * i + 1
-//                 let right=2 * i + 2
-//                 let smallest = i
+//         while(i>0){
+//                 let p=this.parent(i)
 
-//                 if(left < n && this.heap[left] < this.heap[smallest]) {
-//                     smallest=left
-//                 }
+//                 if(this.heap[p].priority<=this.heap[i].priority)break
 
-//                 if(right < n && this.heap[right] < this.heap[smallest]){
+//                 [this.heap[p],this.heap[i]]=
+//                 [this.heap[i],this.heap[p]]
+
+//                 i=p
+//         }
+//     }
+
+//     dequeue(){
+//         if(this.heap.length === 0) return null
+
+//         let root=this.heap[0]
+//         this.heap[0] = this.heap.pop()
+
+//         this.heapifyDown(0)
+
+//         return root
+//     }
+
+//     heapifyDown(i){
+//         let smallest=i
+//         let left=this.left(i)
+//         let right=this.right(i)
+
+//         if(left<this.heap.length && 
+//             this.heap[left].priority < this.heap[smallest].priority) {
+//                 smallest=left
+//             }
+
+//             if(right<this.heap.length && 
+//                 this.heap[right].priority<this.heap[smallest].priority) {
 //                     smallest=right
 //                 }
 
 //                 if(smallest !==i){
-//                     [this.heap[i],this.heap[smallest]] = [this.heap[smallest],this.heap[i]]
-//                     i=smallest
-//                 }else break
-//             }
-//         return min
+//                   [this.heap[i],this.heap[smallest]]=
+//                   [this.heap[smallest],this.heap[i]]
+//                   this.heapifyDown(smallest)
+//                 }
 //     }
 // }
 
-// let h=new MinHeap()
-// h.heap=[10,20,30]
+// let pq2=new MinPriorityQueue()
 
-// console.log(h.extractMin())
-// console.log(h.heap)
+// pq2.enqueue("Task A",3)
+// pq2.enqueue("Task B",1)
+// pq2.enqueue("Task C",2)
 
-
-
-
-//🌳 Heapify Up
-// function heapifyUp(heap){
-//     let i=heap.length-1
-
-//     while(i>0){
-//         let parent=Math.floor((i-1)/2)
-
-//         if(heap[parent]>heap[i]) {
-//             [heap[parent],heap[i]] = [heap[i],heap[parent]]
-//             i=parent
-//         }else break
-//     }
-// }
-
-// let heap=[30,20]
-// heap.push(10)
-
-// heapifyUp(heap)
-
-// console.log(heap)
+// console.log(pq2.dequeue())
 
 
 
 
-//🌳 Heapify Down
-function heapifyDown(heap){
-    let i = 0
-    let n = heap.length
+//3. Max Priority Queue (High number = high priority)
+class MaxPriorityQueue{
+    constructor(){
+        this.heap=[]
+    }
 
-    while(true){
-        let left= 2 * i + 1
-        let right= 2 * i + 2
-        let smallest = i
+    parent(i) {return Math.floor((i-1)/2);}
 
-        if(left < n && heap[left]<heap[smallest]){
-            smallest=left
+    enqueue(value,priority) {
+        this.heap.push({value,priority})
+
+        let i=this.heap.length-1
+
+        while(i>0){
+            let p=this.parent(i)
+
+            if(this.heap[p].priority>=this.heap[i].priority) break
+
+            [this.heap[p],this.heap[i]]=
+            [this.heap[i],this.heap[p]]
+
+            i=p
+        }
+    }
+
+    dequeue() {
+        if(this.heap.length === 0) return null
+
+        let root=this.heap[0]
+        this.heap[0]=this.heap.pop()
+
+        let i=0
+
+        while(true) {
+            let  left = 2 * i + 1;
+            let right = 2 * i + 2;
+            let largest=i
+
+            if(left<this.heap.length && 
+                this.heap[left].priority>this.heap[largest].priority) {
+                    largest=left
+                }
+
+                if(right<this.heap.length && 
+                    this.heap[right].priority>this.heap[largest].priority) {
+                        largest=right
+                    }
+
+                    if(largest === i) break
+
+                    [this.heap[i],this.heap[largest]]=
+                    [this.heap[largest],this.heap[i]]
+
+                    i=largest
         }
 
-        if(right < n && heap[right]<heap[smallest]){
-            smallest=right
-        }
-
-        if(smallest !== i){
-            [heap[i],heap[smallest]] = [heap[smallest],heap[i]]
-            i=smallest
-        }else break
+        return root
     }
 }
 
-let heap=[30,20,10]
-heapifyDown(heap)
 
-console.log(heap)
+
+
+//Task Scheduling
+class PriorityQueue {
+  constructor() {
+    this.queue = [];
+  }
+
+  enqueue(value, priority) {
+    let newItem = { value, priority };
+
+    this.queue.push(newItem);
+
+    // sort based on priority (small number = high priority)
+    this.queue.sort((a, b) => a.priority - b.priority);
+  }
+
+  dequeue() {
+    if (this.queue.length === 0) return null;
+
+    return this.queue.shift();
+  }
+
+  peek() {
+    return this.queue[0] || null;
+  }
+}
+
+
+let pq = new PriorityQueue();
+
+pq.enqueue("Send Email", 2);
+pq.enqueue("Fix Bug", 1);
+pq.enqueue("Deploy", 3);
+
+console.log(pq.dequeue());
