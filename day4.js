@@ -274,3 +274,13 @@ function topK(arr, k) {
 
 //Test
 console.log(topK([3,2,1,5,6,4], 2)); 
+
+
+
+//kthLargest
+
+function kthLargest(arr,k){
+  arr.sort((a,b)=>b-a)
+  return arr[k-1]
+}
+console.log(kthLargest([2,8,5,9,3,7],2))
